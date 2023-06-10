@@ -20,6 +20,7 @@ declare global {
 
 const addResult = async (req: Request, res: Response) => {
   try {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { error ,value } = studentSchema.validate(req.body);
     if (error) {
       return res.status(400).json({ message: error.details[0].message });
@@ -30,6 +31,7 @@ const addResult = async (req: Request, res: Response) => {
       return res.status(403).json({ message: 'Access forbidden' });
     }
     
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const result = await Result.create({
       student_id: req.body.student_id,
       subject: req.body.subject,

@@ -9,7 +9,7 @@ import { addResult, updateResult, getResult } from './router/result';
 import {signup} from './router/signup';
 import  Result  from './model/result';
 
-import loginUser from './router/login';
+import {loginUser,forgotPassword,resetPassword} from './router/login';
 import User from './model/user';
 import path from "path"
 import { multerConfig, uploadProfilePicture } from './multer/profile';
@@ -49,9 +49,11 @@ Student.associate();
 app.use('/upload/images', express.static(path.join(__dirname, 'upload', 'images')));
 app.post('/user/signup', signup);
 app.post('/user/login', loginUser);
+app.post('/user/forgot-password', forgotPassword);
+app.post('/user/reset-password', resetPassword);
 app.post('/result', authenticateToken, addResult);
 app.put('/result/:student_id', authenticateToken, updateResult);
-app.get('/result', getResult);
+app.get('/result',authenticateToken, getResult);
 app.post('/user/profile-picture/:userId',authenticateToken, multerConfig.single('profilePicture'), uploadProfilePicture);
 // Define the API endpoint
 app.get('/api/students-results', async (req: Request, res: Response) => {
@@ -76,7 +78,7 @@ app.get('/api/students-results', async (req: Request, res: Response) => {
           grade: result.student?.grade,
         },
       };
-    });
+    }); 
 
     res.json(transformedResults);
   } catch (error) {
